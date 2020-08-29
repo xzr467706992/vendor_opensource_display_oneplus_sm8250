@@ -1211,8 +1211,13 @@ int dsi_message_validate_tx_mode(struct dsi_ctrl *dsi_ctrl,
 	}
 
 	if (*flags & DSI_CTRL_CMD_FETCH_MEMORY) {
+#if defined(CONFIG_PXLW_IRIS5)
+		if ((dsi_ctrl->cmd_len + cmd_len + 4) > SZ_256K) {
+			pr_err("Cannot transfer,size is greater than 256K\n");
+#else
 		if ((dsi_ctrl->cmd_len + cmd_len + 4) > SZ_4K) {
 			DSI_CTRL_ERR(dsi_ctrl, "Cannot transfer,size is greater than 4096\n");
+#endif
 			return -ENOTSUPP;
 		}
 	}
@@ -1270,6 +1275,9 @@ static void dsi_kickoff_msg_tx(struct dsi_ctrl *dsi_ctrl,
 
 	if (flags & DSI_CTRL_CMD_DEFER_TRIGGER) {
 		if (flags & DSI_CTRL_CMD_FETCH_MEMORY) {
+#if defined(CONFIG_PXLW_IRIS5)
+			msm_gem_sync(dsi_ctrl->tx_cmd_buf);
+#endif
 			if (flags & DSI_CTRL_CMD_NON_EMBEDDED_MODE) {
 				dsi_hw_ops.kickoff_command_non_embedded_mode(
 							&dsi_ctrl->hw,
@@ -1340,6 +1348,36 @@ static void dsi_kickoff_msg_tx(struct dsi_ctrl *dsi_ctrl,
 	}
 }
 
+static void print_cmd_desc(struct dsi_ctrl *dsi_ctrl, const struct mipi_dsi_msg *msg)
+{
+	char buf[1024];
+	int len = 0;
+	size_t i;
+	char *tx_buf = (char*)msg->tx_buf;
+
+	/* Packet Info */
+	len += snprintf(buf, sizeof(buf) - len,  "%02X ", msg->type);
+	/* Last bit */
+	len += snprintf(buf + len, sizeof(buf) - len, "%02X ", (msg->flags & MIPI_DSI_MSG_LASTCOMMAND) ? 1 : 0);
+	len += snprintf(buf + len, sizeof(buf) - len, "%02X ", msg->channel);
+	len += snprintf(buf + len, sizeof(buf) - len, "%02X ", (unsigned int)msg->flags);
+	/* Delay */
+	len += snprintf(buf + len, sizeof(buf) - len, "%02X ", msg->wait_ms);
+	len += snprintf(buf + len, sizeof(buf) - len, "%02X %02X ", msg->tx_len >> 8, msg->tx_len & 0x00FF);
+
+	/* Packet Payload */
+	for (i = 0 ; i < msg->tx_len ; i++) {
+		len += snprintf(buf + len, sizeof(buf) - len, "%02X ", tx_buf[i]);
+		/* Break to prevent show too long command */
+		if (i > 250)
+			break;
+	}
+
+	DSI_CTRL_ERR(dsi_ctrl, "%s\n", buf);
+}
+
+extern int dsi_cmd_log_enable;
+
 static void dsi_ctrl_validate_msg_flags(struct dsi_ctrl *dsi_ctrl,
 				const struct mipi_dsi_msg *msg,
 				u32 *flags)
@@ -1375,6 +1413,9 @@ static int dsi_message_tx(struct dsi_ctrl *dsi_ctrl,
 	u8 *buffer = NULL;
 	u32 cnt = 0;
 	u8 *cmdbuf;
+
+	if (dsi_cmd_log_enable)
+		print_cmd_desc(dsi_ctrl, msg);
 
 	/* Select the tx mode to transfer the command */
 	dsi_message_setup_tx_mode(dsi_ctrl, msg->tx_len, flags);
@@ -1444,7 +1485,9 @@ static int dsi_message_tx(struct dsi_ctrl *dsi_ctrl,
 
 		cmdbuf = (u8 *)(dsi_ctrl->vaddr);
 
+#if !defined(CONFIG_PXLW_IRIS5)
 		msm_gem_sync(dsi_ctrl->tx_cmd_buf);
+#endif
 		for (cnt = 0; cnt < length; cnt++)
 			cmdbuf[dsi_ctrl->cmd_len + cnt] = buffer[cnt];
 
