@@ -1092,7 +1092,7 @@ static int iris_ctrl_ocp_read_value(struct dsi_display_ctrl *ctrl,
 	pi_read_cmd->msg.flags |= MIPI_DSI_MSG_LASTCOMMAND;
 	if (mode == DSI_CMD_SET_STATE_LP)
 		pi_read_cmd->msg.flags |= MIPI_DSI_MSG_USE_LPM;
-	rc = dsi_ctrl_cmd_transfer(ctrl->ctrl, &pi_read_cmd->msg, flags);
+	rc = dsi_ctrl_cmd_transfer(ctrl->ctrl, &pi_read_cmd->msg, &flags);
 	if (rc <= 0) {
 		IRIS_LOGW("rx cmd transfer failed rc=%d", rc);
 		return rc;
@@ -1124,7 +1124,7 @@ static void iris_ctrl_ocp_write_address(struct dsi_display_ctrl *ctrl,
 	flags |= DSI_CTRL_CMD_FETCH_MEMORY;
 	flags |= DSI_CTRL_CMD_LAST_COMMAND;
 	iris_ocp_cmd->msg.flags |= MIPI_DSI_MSG_LASTCOMMAND;
-	dsi_ctrl_cmd_transfer(ctrl->ctrl, &iris_ocp_cmd->msg, flags);
+	dsi_ctrl_cmd_transfer(ctrl->ctrl, &iris_ocp_cmd->msg, &flags);
 }
 
 static int iris_ctrl_ocp_read(struct dsi_display_ctrl *ctrl, u32 address,
@@ -1153,7 +1153,7 @@ static int iris_panel_ctrl_send(struct dsi_display_ctrl *ctrl,
 			ptx_cmds[i].msg.flags |= MIPI_DSI_MSG_LASTCOMMAND;
 			flags |= DSI_CTRL_CMD_LAST_COMMAND;
 		}
-		rc = dsi_ctrl_cmd_transfer(ctrl->ctrl, &ptx_cmds[i].msg, flags);
+		rc = dsi_ctrl_cmd_transfer(ctrl->ctrl, &ptx_cmds[i].msg, &flags);
 		if (ptx_cmds[i].post_wait_ms) {
 			usleep_range(ptx_cmds[i].post_wait_ms*1000,
 					((ptx_cmds[i].post_wait_ms*1000)+10));
