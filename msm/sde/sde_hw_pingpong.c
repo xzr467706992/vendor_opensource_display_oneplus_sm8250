@@ -310,6 +310,7 @@ static int sde_hw_pp_setup_dsc(struct sde_hw_pingpong *pp)
 	SDE_REG_WRITE(c, PP_DCE_DATA_OUT_SWAP, data);
 	return 0;
 }
+extern int op_dither_enable;
 
 static int sde_hw_pp_setup_dither_v1(struct sde_hw_pingpong *pp,
 					void *cfg, size_t len)
@@ -357,7 +358,11 @@ static int sde_hw_pp_setup_dither_v1(struct sde_hw_pingpong *pp,
 			((dither->matrix[i + 3] & REG_MASK(4)) << 12);
 		SDE_REG_WRITE(c, base + offset, data);
 	}
-	SDE_REG_WRITE(c, base, 1);
+	if (op_dither_enable==1){
+          SDE_REG_WRITE(c, base, 1);
+        }else{
+          SDE_REG_WRITE(c, base, 0);
+        }
 
 	return 0;
 }

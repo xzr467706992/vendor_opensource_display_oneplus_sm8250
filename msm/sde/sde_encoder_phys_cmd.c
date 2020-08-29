@@ -9,6 +9,9 @@
 #include "sde_core_irq.h"
 #include "sde_formats.h"
 #include "sde_trace.h"
+#if defined(CONFIG_PXLW_IRIS5)
+#include "dsi_iris5_api.h"
+#endif
 
 #define SDE_DEBUG_CMDENC(e, fmt, ...) SDE_DEBUG("enc%d intf%d " fmt, \
 		(e) && (e)->base.parent ? \
@@ -34,9 +37,16 @@
 #define DEFAULT_TEARCHECK_SYNC_THRESH_CONTINUE	4
 
 #define SDE_ENC_WR_PTR_START_TIMEOUT_US 20000
-#define AUTOREFRESH_SEQ1_POLL_TIME	2000
-#define AUTOREFRESH_SEQ2_POLL_TIME	25000
-#define AUTOREFRESH_SEQ2_POLL_TIMEOUT	1000000
+
+#if defined(PXLW_IRIS_DUAL)
+/* decrease the polling time interval, reduce polling time */
+#define AUTOREFRESH_SEQ1_POLL_TIME      1000
+#define AUTOREFRESH_SEQ2_POLL_TIME      1000
+#else
+#define AUTOREFRESH_SEQ1_POLL_TIME      2000
+#define AUTOREFRESH_SEQ2_POLL_TIME      25000
+#endif
+#define AUTOREFRESH_SEQ2_POLL_TIMEOUT   1000000
 
 static inline int _sde_encoder_phys_cmd_get_idle_timeout(
 		struct sde_encoder_phys_cmd *cmd_enc)
@@ -1800,6 +1810,8 @@ static void _sde_encoder_autorefresh_disable_seq2(
 	SDE_EVT32(DRMID(phys_enc->parent), phys_enc->intf_idx - INTF_0,
 				autorefresh_status, SDE_EVTLOG_FUNC_CASE1);
 
+/* remove it for 120hz case */
+/*
 	if (!(autorefresh_status & BIT(7))) {
 		usleep_range(AUTOREFRESH_SEQ2_POLL_TIME,
 			AUTOREFRESH_SEQ2_POLL_TIME + 1);
@@ -1809,6 +1821,7 @@ static void _sde_encoder_autorefresh_disable_seq2(
 		SDE_EVT32(DRMID(phys_enc->parent), phys_enc->intf_idx - INTF_0,
 				autorefresh_status, SDE_EVTLOG_FUNC_CASE2);
 	}
+*/
 
 	while (autorefresh_status & BIT(7)) {
 		if (!trial) {
@@ -1880,14 +1893,24 @@ static void sde_encoder_phys_cmd_trigger_start(
 		return;
 
 	/* we don't issue CTL_START when using autorefresh */
+#if defined(CONFIG_PXLW_IRIS5)
+	if (iris_secondary_display_autorefresh(phys_enc)) {
+		frame_cnt = 1;
+	} else {
+		frame_cnt = _sde_encoder_phys_cmd_get_autorefresh_property(phys_enc);
+	}
+	if (frame_cnt) {
+		atomic_inc(&cmd_enc->autorefresh.kickoff_cnt);
+		_sde_encoder_phys_cmd_config_autorefresh(phys_enc, frame_cnt);
+#else
 	frame_cnt = _sde_encoder_phys_cmd_get_autorefresh_property(phys_enc);
 	if (frame_cnt) {
 		_sde_encoder_phys_cmd_config_autorefresh(phys_enc, frame_cnt);
 		atomic_inc(&cmd_enc->autorefresh.kickoff_cnt);
+#endif
 	} else {
 		sde_encoder_helper_trigger_start(phys_enc);
 	}
-
 	/* wr_ptr_wait_success is set true when wr_ptr arrives */
 	cmd_enc->wr_ptr_wait_success = false;
 }
