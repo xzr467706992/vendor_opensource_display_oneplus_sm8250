@@ -2254,6 +2254,7 @@ int dsi_display_check_status(struct drm_connector *connector, void *display,
 	u32 status_mode;
 	int rc = 0x1;
 	u32 mask;
+	int ret;
 
 	if (!dsi_display || !dsi_display->panel)
 		return -EINVAL;
