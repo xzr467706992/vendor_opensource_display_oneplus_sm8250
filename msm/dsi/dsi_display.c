@@ -1739,7 +1739,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds1->msg.rx_buf = buf;
 		cmds1->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		rc = dsi_panel_tx_cmd_set_op(panel, DSI_CMD_READ_SAMSUNG_PANEL_REGISTER_OFF);
@@ -1756,7 +1756,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds2->msg.rx_buf = buf;
 		cmds2->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		rc = dsi_panel_tx_cmd_set_op(panel, DSI_CMD_READ_SAMSUNG_PANEL_REGISTER_OFF);
@@ -1773,7 +1773,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds3->msg.rx_buf = buf;
 		cmds3->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds3->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds3->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		rc = dsi_panel_tx_cmd_set_op(panel, DSI_CMD_READ_SAMSUNG_PANEL_REGISTER_OFF);
@@ -1789,7 +1789,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds4->msg.rx_buf = buf;
 		cmds4->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds4->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds4->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		rc = dsi_panel_tx_cmd_set_op(panel, DSI_CMD_READ_SAMSUNG_PANEL_REGISTER_OFF);
@@ -1806,7 +1806,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds5->msg.rx_buf = buf;
 		cmds5->msg.rx_len = 2;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds5->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds5->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		rc = dsi_panel_tx_cmd_set_op(panel, DSI_CMD_READ_SAMSUNG_PANEL_REGISTER_OFF);
@@ -1823,7 +1823,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds6->msg.rx_buf = buf;
 		cmds6->msg.rx_len = 16;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds6->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds6->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		rc = dsi_panel_tx_cmd_set_op(panel, DSI_CMD_READ_SAMSUNG_PANEL_REGISTER_OFF);
@@ -1842,7 +1842,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds7->msg.rx_buf = buf;
 		cmds7->msg.rx_len = 34;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds7->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds7->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		rc = dsi_panel_tx_cmd_set_op(panel, DSI_CMD_READ_SAMSUNG_PANEL_REGISTER_OFF);
@@ -1870,7 +1870,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds1->msg.rx_buf = buf;
 		cmds1->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		memcpy(temp_buffer_1, cmds1->msg.rx_buf, 1);
@@ -1888,7 +1888,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds2->msg.rx_buf = buf;
 		cmds2->msg.rx_len = 2;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		memcpy(temp_buffer_6, cmds2->msg.rx_buf, 2);
@@ -1919,7 +1919,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds1->msg.rx_buf = register_0a;
 		cmds1->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 
@@ -1932,7 +1932,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds2->msg.rx_buf = register_b6;
 		cmds2->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 
@@ -2005,7 +2005,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 			cmds1->msg.rx_buf = register_e9;
 			cmds1->msg.rx_len = 4;
 			do {
-				rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, flags);
+				rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, &flags);
 				retry_times++;
 			} while ((rc <= 0) && (retry_times < 3));
 			if (rc <= 0) {
@@ -2024,7 +2024,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 			cmds2->msg.rx_buf = register_0a;
 			cmds2->msg.rx_len = 1;
 			do {
-				rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, flags);
+				rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, &flags);
 				retry_times++;
 			} while ((rc <= 0) && (retry_times < 3));
 			if (rc <= 0) {
@@ -2083,7 +2083,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		cmds1->msg.rx_buf = register_0a;
 		cmds1->msg.rx_len = 1;
 		do {
-			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, flags);
+			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, &flags);
 			retry_times++;
 		} while ((rc <= 0) && (retry_times < 3));
 		if (rc <= 0) {
@@ -2102,7 +2102,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		cmds2->msg.rx_buf = register_ee;
 		cmds2->msg.rx_len = 1;
 		do {
-			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, flags);
+			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds2->msg, &flags);
 			retry_times++;
 		} while ((rc <= 0) && (retry_times < 3));
 		if (rc <= 0) {
@@ -2121,7 +2121,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		cmds3->msg.rx_buf = register_e5;
 		cmds3->msg.rx_len = 1;
 		do {
-			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds3->msg, flags);
+			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds3->msg, &flags);
 			retry_times++;
 		} while ((rc <= 0) && (retry_times < 3));
 		if (rc <= 0) {
@@ -2151,7 +2151,7 @@ static int dsi_display_status_reg_read(struct dsi_display *display)
 		cmds4->msg.rx_buf = register_ed;
 		cmds4->msg.rx_len = 1;
 		do {
-			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds4->msg, flags);
+			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds4->msg, &flags);
 			retry_times++;
 		} while ((rc <= 0) && (retry_times < 3));
 		if (rc <= 0) {
@@ -4766,7 +4766,7 @@ static ssize_t dsi_host_transfer(struct mipi_dsi_host *host,
 		if (msg->rx_buf && msg->rx_len)
 			flags |= DSI_CTRL_CMD_READ;
 		rc = dsi_ctrl_cmd_transfer(display->ctrl[ctrl_idx].ctrl, msg,
-					  flags);
+					  &flags);
 		if (rc < 0) {
 #else
 		rc = dsi_ctrl_cmd_transfer(display->ctrl[ctrl_idx].ctrl, msg,
@@ -9797,7 +9797,7 @@ int dsi_display_get_gamma_para(struct dsi_display *dsi_display, struct dsi_panel
                 goto error;
             cmds->msg.rx_buf = fb_temp;
             cmds->msg.rx_len = 13;
-            rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+            rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
             if (rc <= 0) {
                 DSI_ERR("Failed to read DSI_CMD_SET_GAMMA_FLASH_READ_FB\n");
                 goto error;
@@ -9860,7 +9860,7 @@ int dsi_display_get_gamma_para(struct dsi_display *dsi_display, struct dsi_panel
     flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
     cmds->msg.rx_buf = c8_temp;
     cmds->msg.rx_len = 135;
-    rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+    rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
     if (rc <= 0) {
         DSI_ERR("Failed to read DSI_CMD_SET_GAMMA_OTP_READ_C8\n");
         goto error;
@@ -9882,7 +9882,7 @@ int dsi_display_get_gamma_para(struct dsi_display *dsi_display, struct dsi_panel
     flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
     cmds->msg.rx_buf = c9_temp;
     cmds->msg.rx_len = 180;
-    rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+    rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
     if (rc <= 0) {
         DSI_ERR("Failed to read DSI_CMD_SET_GAMMA_OTP_READ_C9\n");
         goto error;
@@ -9904,7 +9904,7 @@ int dsi_display_get_gamma_para(struct dsi_display *dsi_display, struct dsi_panel
     flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
     cmds->msg.rx_buf = b3_temp;
     cmds->msg.rx_len = 47;
-    rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+    rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
     if (rc <= 0) {
         DSI_ERR("Failed to read DSI_CMD_SET_GAMMA_OTP_READ_B3\n");
         goto error;
@@ -9985,7 +9985,7 @@ int dsi_display_get_dimming_gamma_para(struct dsi_display *dsi_display, struct d
 	cmds->msg.rx_buf = dimming_gamma_60hz;
 	cmds->msg.rx_len = 5;
 	do {
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 		retry_times++;
 	} while ((rc <= 0) && (retry_times < 3));
 	if (rc <= 0) {
@@ -10035,7 +10035,7 @@ int dsi_display_get_dimming_gamma_para(struct dsi_display *dsi_display, struct d
 	cmds->msg.rx_buf = dimming_gamma_120hz;
 	cmds->msg.rx_len = 5;
 	do {
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 		retry_times++;
 	} while ((rc <= 0) && (retry_times < 3));
 	if (rc <= 0) {
@@ -10085,7 +10085,7 @@ int dsi_display_get_dimming_gamma_para(struct dsi_display *dsi_display, struct d
 	cmds->msg.rx_buf = &dimming_gamma_60hz[15];
 	cmds->msg.rx_len = 5;
 	do {
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 		retry_times++;
 	} while ((rc <= 0) && (retry_times < 3));
 	if (rc <= 0) {
@@ -10243,7 +10243,7 @@ int dsi_display_read_serial_number(struct dsi_display *dsi_display,
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds->msg.rx_buf = &panel_ic_v;
 		cmds->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		panel->panel_ic_v = panel_ic_v & 0x0f;
@@ -10268,7 +10268,7 @@ int dsi_display_read_serial_number(struct dsi_display *dsi_display,
 		flags |= (DSI_CTRL_CMD_FETCH_MEMORY | DSI_CTRL_CMD_READ);
 		cmds1->msg.rx_buf = register_d6;
 		cmds1->msg.rx_len = 10;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds1->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("rx cmd transfer failed rc=%d\n", rc);
 		count = mode->priv_info->cmd_sets[DSI_CMD_READ_SAMSUNG_PANEL_REGISTER_OFF].count;
@@ -10310,7 +10310,7 @@ int dsi_display_read_serial_number(struct dsi_display *dsi_display,
 		goto error;
 	cmds->msg.rx_buf = buf;
 	cmds->msg.rx_len = len;
-	rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+	rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 	if (rc <= 0)
 		DSI_ERR("Failed to get panel serial number, rc=%d\n", rc);
 
@@ -10330,7 +10330,7 @@ int dsi_display_read_serial_number(struct dsi_display *dsi_display,
 			goto error;
 		cmds->msg.rx_buf = &code_info;
 		cmds->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("Failed to get code info, rc=%d\n", rc);
 
@@ -10348,7 +10348,7 @@ int dsi_display_read_serial_number(struct dsi_display *dsi_display,
 			goto error;
 		cmds->msg.rx_buf = &stage_info;
 		cmds->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("Failed to get stage info, rc=%d\n", rc);
 
@@ -10366,7 +10366,7 @@ int dsi_display_read_serial_number(struct dsi_display *dsi_display,
 			goto error;
 		cmds->msg.rx_buf = &prodution_info;
 		cmds->msg.rx_len = 1;
-		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+		rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 		if (rc <= 0)
 			DSI_ERR("Failed to get production info, rc=%d\n", rc);
 
@@ -12259,7 +12259,7 @@ int dsi_display_read_panel_id(struct dsi_display *dsi_display,
 	cmds->msg.rx_len = len;
 	retry_times = 0;
     do {
-	    rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+	    rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 	    retry_times++;
 	} while ((rc <= 0) && (retry_times < 3));
 
@@ -12699,7 +12699,7 @@ int dsi_display_get_reg_value(struct dsi_display *dsi_display, struct dsi_panel 
 		cmds->msg.rx_buf = reg_read_value;
 		cmds->msg.rx_len = reg_read_len;
 		do {
-			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, flags);
+			rc = dsi_ctrl_cmd_transfer(m_ctrl->ctrl, &cmds->msg, &flags);
 			retry_times++;
 		} while ((rc <= 0) && (retry_times < 3));
 		if (rc <= 0) {
